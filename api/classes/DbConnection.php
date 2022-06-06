@@ -3,8 +3,8 @@ class DbConnection {
 
     private $host = 'localhost';
     private $username = 'root';
-    // private $password = '!23qweASD';
-    private $password = 'DarthVader-2012';
+    private $password = '!23qweASD';
+    // private $password = 'DarthVader-2012';
     private $database = 'amta';
     
     protected $connection;

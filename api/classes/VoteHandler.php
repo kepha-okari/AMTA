@@ -74,11 +74,10 @@ class VoteHandler extends DbConnection{
             //         ON cnd.`category_id` = t2.`category_id` AND cnd.votes = t2.max_votes
             //     LEFT JOIN categories cat ON cat.id=cnd.category_id;
             // ";
-
             // // $query ="SELECT * FROM  categories;";
-            
-            // return $this->all_rows($query);         
-            return $this->getRequest('http://161.35.6.91/amta/admin/app/backend/web/index.php?r=api/candidates');
+            // return $this->all_rows($query);  
+
+            return $this->getRequest('http://localhost/amta/admin/app/backend/web/index.php?r=api/candidates');
  
             
         } catch (\Exception $e) {

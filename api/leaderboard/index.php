@@ -14,7 +14,7 @@ try {
         $vote->getLeaderboard(),
         // ]
     ];
-    $vote->getLeaderboard();
+    // $vote->getLeaderboard();
 } catch (\Throwable $th) {
     throw $th;
 }
