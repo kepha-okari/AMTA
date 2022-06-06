@@ -1,5 +1,4 @@
 <?php
-// include_once('classes/DbConnection.php');
 include_once('DbConnection.php');
  
 class VoteHandler extends DbConnection{
@@ -58,30 +57,30 @@ class VoteHandler extends DbConnection{
     public function getLeaderboard(){
         try {
 
-            $query ="SELECT *
-                FROM candidates c  LEFT JOIN categories ct ON c.category_id=ct.id 
-                WHERE c.category_id='$candidate_id';
-            ";
+            // $query = "
+            //     SELECT 
+            //         cnd.id AS candidate_id, 
+            //         cnd.name AS candidate_name, 
+            //         cnd.votes AS votes, cnd.id, 
+            //         cat.name as category, 
+            //         cat.id AS category_id
+            //     FROM candidates cnd
+            //     INNER JOIN
+            //     (
+            //         SELECT `category_id`, MAX(votes) AS max_votes
+            //         FROM candidates
+            //         GROUP BY `category_id`
+            //     ) t2
+            //         ON cnd.`category_id` = t2.`category_id` AND cnd.votes = t2.max_votes
+            //     LEFT JOIN categories cat ON cat.id=cnd.category_id;
+            // ";
 
-            $query = "
-                SELECT 
-                    cnd.id AS candidate_id, 
-                    cnd.name AS candidate_name, 
-                    cnd.votes AS votes, cnd.id, 
-                    cat.name as category, 
-                    cat.id AS category_id
-                FROM candidates cnd
-                INNER JOIN
-                (
-                    SELECT `category_id`, MAX(votes) AS max_votes
-                    FROM candidates
-                    GROUP BY `category_id`
-                ) t2
-                    ON cnd.`category_id` = t2.`category_id` AND cnd.votes = t2.max_votes
-                LEFT JOIN categories cat ON cat.id=cnd.category_id;
-            ";
-            return $this->all_rows($query);
-           
+            // // $query ="SELECT * FROM  categories;";
+            
+            // return $this->all_rows($query);         
+            return $this->getRequest('http://161.35.6.91/amta/admin/app/backend/web/index.php?r=api/candidates');
+ 
+            
         } catch (\Exception $e) {
             throw $e;
         }
@@ -90,7 +89,7 @@ class VoteHandler extends DbConnection{
     public function categories(){
         try {
 
-            $query ="SELECT * FROM  categories ";
+            $query ="SELECT * FROM  categories;";
             
             return $this->all_rows($query);
            
@@ -103,8 +102,11 @@ class VoteHandler extends DbConnection{
     public function allCandidates(){
         try {
 
-            $query ="SELECT * FROM  candidates";
+            $query ="SELECT * FROM  candidates;";
+            
             return $this->all_rows($query);
+            // $query = $this->connection->query($sql);
+            // $rows = $query->fetch_all(MYSQLI_ASSOC);
            
         } catch (\Exception $e) {
             throw $e;
@@ -131,51 +133,31 @@ class VoteHandler extends DbConnection{
     }
     
     
+    
     public function escape_string($value){
         
         return $this->connection->real_escape_string($value);
     }
 
 
-
-    public function sendSMS( $message, $msisdn ) {
-        
-        $url = 'http://167.172.14.50:4002/v1/send-sms';
     
-        $post_data = http_build_query([
-            "apiClientID" => 566,
-            "key" => 'HUuZxgpnOGPTIYF',
-            "secret" => 'nyailJsfK5r1UPkreVa9xSQH1PDICQ',
-            "txtMessage" => $message,
-            "MSISDN" => $msisdn,
-            "serviceID" => 1
-        ]);
-    
-        try {
-          $ch = curl_init();
-          curl_setopt($ch, CURLOPT_URL, $url);
-          curl_setopt($ch, CURLOPT_POST, 1);
-          curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/x-www-form-urlencoded '));
-          curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
-          curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-          $result = curl_exec($ch);
-    
-          $result = json_decode($result);
-        
-          return $result; 
-    
-        } catch (\Throwable $th) {
-          throw $th;
-        }
-    }
 
 
 }
 
 
+// header('Access-Control-Allow-Origin: *');
+// header('Content-type: application/json');
+
 // $t = new VoteHandler();
-// // print_r($t->castVote('254707630747', 23776, 2));
-// // print_r($t->upvoteCandidate(1));
-// $vote = $t->getLeaderboard(1);
-// print_r($vote);
-// // 
+// print_r($vote = $t->allCandidates());
+
+// $result = [
+//     'status' => true, 
+//     'message description'=>'leaderboard summary and all contestants(candidates)',
+//     'data'=> [
+//     // 'summary' => $vote->getLeaderboard(),
+//     'candidates' => $t->allCandidates()
+//     ]
+// ];
+// echo json_encode($result); 
