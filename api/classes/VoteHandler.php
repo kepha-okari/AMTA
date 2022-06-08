@@ -53,6 +53,19 @@ class VoteHandler extends DbConnection{
     }
 
 
+    public function candidateExist($candidate_id){
+        try {
+
+            $query ="SELECT * FROM candidates WHERE id='$candidate_id';";
+            $result = $this->all_rows($query);
+            return count($result)>0 ? true : false;
+           
+        } catch (\Exception $e) {
+            throw $e;
+        }
+    }
+
+
 
     public function getLeaderboard(){
         try {
@@ -104,8 +117,6 @@ class VoteHandler extends DbConnection{
             $query ="SELECT * FROM  candidates;";
             
             return $this->all_rows($query);
-            // $query = $this->connection->query($sql);
-            // $rows = $query->fetch_all(MYSQLI_ASSOC);
            
         } catch (\Exception $e) {
             throw $e;
@@ -138,8 +149,27 @@ class VoteHandler extends DbConnection{
         return $this->connection->real_escape_string($value);
     }
 
+    public function concat($chain, $link){
 
+        $result = $chain .=$link;
+        return $result;
+        
+    }
+
+    public function extractCandidateID($string){
     
+        $candidate = '';
+        $alpha_numeric = str_split($string,1);
+        foreach ($alpha_numeric as $character) {
+            if(is_numeric($character)){
+                $candidate = $this->concat($candidate, $character);
+            }
+        }
+
+        return (int)$candidate;
+
+    }
+
 
 
 }
@@ -148,8 +178,8 @@ class VoteHandler extends DbConnection{
 // header('Access-Control-Allow-Origin: *');
 // header('Content-type: application/json');
 
-// $t = new VoteHandler();
-// print_r($vote = $t->allCandidates());
+$t = new VoteHandler();
+print_r($vote = $t->candidateExist(1112));
 
 // $result = [
 //     'status' => true, 
