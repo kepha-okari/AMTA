@@ -6,11 +6,14 @@ use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use backend\models\Candidates;
 
+
 /**
  * CandidatesSearch represents the model behind the search form of `backend\models\Candidates`.
  */
 class CandidatesSearch extends Candidates
 {
+    public $catNameSearch;
+
     /**
      * {@inheritdoc}
      */
@@ -18,7 +21,7 @@ class CandidatesSearch extends Candidates
     {
         return [
             [['id', 'votes', 'status', 'category_id'], 'integer'],
-            [['name', 'inserted_at'], 'safe'],
+            [['catNameSearch','name', 'inserted_at'], 'safe'],
         ];
     }
 
@@ -66,6 +69,7 @@ class CandidatesSearch extends Candidates
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name]);
+        // $query->andFilterWhere(['like', 'category_id', $this->name]);
 
         return $dataProvider;
     }

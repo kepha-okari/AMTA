@@ -64,10 +64,30 @@ class ApiController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'ca' => ['GET'],
-                    'get-branches' => ['GET'],
+                    'categories' => ['GET'],
                     'candidates' => ['GET'],
                     'fetch-questions' => ['GET'],
                 ],
+            ],
+
+            'corsFilter' => [
+                'class' => \yii\filters\Cors::class,
+                'cors' => [
+                    // restrict access to
+                    'Origin' => [ 'http://161.35.6.91', 'https://africamasharikiawards-cra.vercel.app/', 'http://localhost:3000' ],
+                    // 'Origin' => ['*'],
+                    // Allow only POST and PUT methods
+                    'Access-Control-Request-Method' => ['POST', 'PUT', 'GET'],
+                    // Allow only headers 'X-Wsse'
+                    'Access-Control-Request-Headers' => ['X-Wsse'],
+                    // Allow credentials (cookies, authorization headers, etc.) to be exposed to the browser
+                    'Access-Control-Allow-Credentials' => true,
+                    // Allow OPTIONS caching
+                    'Access-Control-Max-Age' => 3600,
+                    // Allow the X-Pagination-Current-Page header to be exposed to the browser.
+                    'Access-Control-Expose-Headers' => ['X-Pagination-Current-Page'],
+                ],
+    
             ],
 
         ];
@@ -79,7 +99,7 @@ class ApiController extends Controller
      * @inheritdoc
      */
     public function beforeAction($action) {
-        if ($action->id == 'get-counties'  || $action->id == 'candidates' ){
+        if ($action->id == 'categories'  || $action->id == 'candidates' ){
 
             $this->enableCsrfValidation = false;
             \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
@@ -88,20 +108,11 @@ class ApiController extends Controller
     }
 
 
-    public function actionGetCounties() {
+    public function actionCategories() {
         try {
-            $query =  new Query();
-            $counties = $query->select(['county'])  
-                ->from('branches')
-                ->distinct()
-                ->all();
         
-                
-            return $data = [
-                'message' => 'result found',
-                'data' => $counties
-                 
-            ];
+            $categories = Categories::find()->all();
+            return  [ 'status' => true, 'message description'=>'result for all categories ','data'=>$categories ];
 
         } catch (\Throwable $th) {
             throw $th;
@@ -109,32 +120,6 @@ class ApiController extends Controller
     }
 
 
-
-    public function actionGetBranches() {
-
-        if (isset($_GET['county'])) {
-            $county = $_GET['county'];
-            } else {
-                $data =  array(
-                    'message' => 'missing county',
-                    'data' => null
-                );
-            return $data;
-        }
-
-        try {
-    
-            return $data = [
-                'message' => 'result found',
-                'data' => Branches::find()->where(['county' => $county ])->orderBy(['branch' => 'ASC'])->all(),
-                'count' => count(Branches::find()->where(['county' => $county ])->orderBy(['branch' => 'ASC'])->all())
-                 
-            ];
-
-        } catch (\Throwable $th) {
-            throw $th;
-        }
-    }
 
 
     public function actionCandidates() {

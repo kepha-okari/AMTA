@@ -53,4 +53,39 @@ VALUES
 ('DHL', 0, 1, 3);
 
 
+INSERT INTO categories (name, code, status)
+VALUES
+('Best Technological Innovation in Transport', '', 1),
+('Taxi Provider Of The Year', '', 1),
+('Courier Service Provider Of The Year', '', 1),
+('Haulier/ Logistics Company Of The Year', '', 1),
+('Domestic Airline Of The Year', '', 1),
+('Long Distance Bus Service Of The Year', '', 1),
+('Matatu Sacco Of The Year', '', 1),
+('Long Distance Shuttle of The Year', '', 1),
+('Matatu of The Year', '', 1),
+('Female Driver of the Year', '', 1),
+('Male Driver of the Year', '', 1),
+('Female Conductor of the Year', '', 1),
+('Male Conductor of the Year', '', 1),
+('Radio Drive Show Of The Year', '', 1),
+('Motor Club Of The Year', '', 1),
+('Transport Social Media Page of The Year', '', 1),
+('Female Outstanding Boda Boda Rider Of The Year', '', 1),
+('Male Outstanding Boda Boda Rider Of The Year', '', 1),
+('Female Traffic Police Of The Year', '', 1),
+('Male Traffic Police Of The Year', '', 1),
+('Transport Infrastructure Of The Year', '', 1),
+('Transport Sector Lifetime Achievement', '', 1),
+('Outstanding personnel in Road transport', '', 1),
+('Outstanding personnel in Maritime transport', '', 1),
+('Outstanding personnel in Aviation transport', '', 1),
+('Outstanding personnel in Rail transport', '', 1),
+('Outstanding personnel in', '', 1),
+('', '', 1),
+('', '', 1),
+('', '', 1),
+('', '', 1),
+('', '', 1),
+('', '', 1);
             

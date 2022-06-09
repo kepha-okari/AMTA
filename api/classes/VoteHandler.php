@@ -14,7 +14,7 @@ class VoteHandler extends DbConnection{
             $sql = "INSERT INTO votes (msisdn, shortcode, candidate_id) VALUE('$msisdn', '$shortcode', '$candidate_id')";
             $query = $this->connection->query($sql);
 
-            $this->upvoteCandidate($candidate_id, $msisdn);
+            return $this->upvoteCandidate($candidate_id, $msisdn);
             
         } catch (\Exception $e) {
             throw $e;
@@ -30,8 +30,12 @@ class VoteHandler extends DbConnection{
 
             $vote = $this->sendAppreciation($candidate_id);
             
-            $msg = 'Your vote for '.ucfirst($vote[0]['name']).' in the '.ucfirst($vote[0]['category']).' category has been cast. Thank you for taking part.';
-            self::sendSMS($msg, $msisdn);
+            $msg2 = 'Your vote for '.ucfirst($vote[0]['name']).' in the '.ucfirst($vote[0]['category']).' category has been cast. Thank you for taking part.';
+            $msg = 'Thank you for voting. #AMT Awards - Celebrating Excellence In The Transport Industry.';
+            // self::sendSMS($msg, $msisdn);
+            self::serviceSMS( $msg, $msisdn );
+            return $msg2;
+
         } catch (\Exception $e) {
             throw $e;
         }
@@ -178,9 +182,8 @@ class VoteHandler extends DbConnection{
 // header('Access-Control-Allow-Origin: *');
 // header('Content-type: application/json');
 
-$t = new VoteHandler();
-print_r($vote = $t->candidateExist(1112));
-
+// $t = new VoteHandler();
+// print_r($vote = $t->serviceSMS('132', '254707630747'));
 // $result = [
 //     'status' => true, 
 //     'message description'=>'leaderboard summary and all contestants(candidates)',

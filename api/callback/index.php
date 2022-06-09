@@ -17,11 +17,26 @@ if(isset($_GET['message'])) {
     $shortcode = $_GET['shortcode'];
 
     $casting = explode("-", $message);
-    $candidate = $casting[1];
 
-    $result = $vote->castVote($msisdn, $shortcode, $candidate);
-    $result = [ 'status' => true,  'status_message' => 'vote has been received' ];
-    echo json_encode($result); 
+    if(count($casting)>=2) {
+      $candidate_id = $casting[1];
+    } else {
+      $candidate_id = $vote->extractCandidateID($message);
+    }  
+
+
+    if( $vote->candidateExist($candidate_id) ){
+
+        $result = $vote->castVote($msisdn, $shortcode, $candidate_id);
+        $result = [ 'status' => true,  'status_message' => 'vote has been received', 'candidate id' => (int)$candidate_id, 'vote' => $result ];
+        echo json_encode($result); 
+
+    } else {
+        $msg = 'Opps! you have submited vote '.$message.' which is an invalid vote format. Kindly verify and try again.';
+        $vote->sendSMS($msg, $msisdn);
+        $result = [ 'status' => false,  'status_message' => $msg ];
+        echo json_encode($result); 
+    }
 
 }else {
 
@@ -35,18 +50,4 @@ if(isset($_GET['message'])) {
 
 
 
-
-// print_r($vote->getLeaderboard(1));
-
-
-
-// $avoid = ['token', 'api_key'];
-// $datastring = '';
-// foreach ($_GET as $key => $val) {
-//     if(!in_array($key, $avoid)){
-//         $datastring.=$key;
-//     }
-// }
-
-// echo $datastring;
 
