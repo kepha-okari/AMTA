@@ -3,16 +3,16 @@
 namespace backend\controllers;
 
 use Yii;
-use backend\models\Candidates;
-use backend\models\CandidatesSearch;
+use backend\models\Votes;
+use backend\models\VotesSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * CandidatesController implements the CRUD actions for Candidates model.
+ * VotesController implements the CRUD actions for Votes model.
  */
-class CandidatesController extends Controller
+class VotesController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -30,12 +30,12 @@ class CandidatesController extends Controller
     }
 
     /**
-     * Lists all Candidates models.
+     * Lists all Votes models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new CandidatesSearch();
+        $searchModel = new VotesSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -45,7 +45,7 @@ class CandidatesController extends Controller
     }
 
     /**
-     * Displays a single Candidates model.
+     * Displays a single Votes model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -58,13 +58,13 @@ class CandidatesController extends Controller
     }
 
     /**
-     * Creates a new Candidates model.
+     * Creates a new Votes model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Candidates();
+        $model = new Votes();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -76,7 +76,7 @@ class CandidatesController extends Controller
     }
 
     /**
-     * Updates an existing Candidates model.
+     * Updates an existing Votes model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -96,7 +96,7 @@ class CandidatesController extends Controller
     }
 
     /**
-     * Deletes an existing Candidates model.
+     * Deletes an existing Votes model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -110,15 +110,15 @@ class CandidatesController extends Controller
     }
 
     /**
-     * Finds the Candidates model based on its primary key value.
+     * Finds the Votes model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Candidates the loaded model
+     * @return Votes the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Candidates::findOne($id)) !== null) {
+        if (($model = Votes::findOne($id)) !== null) {
             return $model;
         }
 

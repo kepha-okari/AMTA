@@ -1,20 +1,21 @@
 <?php
 include_once('DbConnection.php');
  
-class VoteHandler extends DbConnection{
+class VoteHandler extends DbConnection { 
 
     public function __construct(){
 
         parent::__construct();
     }
 
-    public function castVote($msisdn, $shortcode, $candidate_id){
+
+    public function castVote($msisdn, $shortcode, $candidate_id, $linkID){
         try {
 
             $sql = "INSERT INTO votes (msisdn, shortcode, candidate_id) VALUE('$msisdn', '$shortcode', '$candidate_id')";
             $query = $this->connection->query($sql);
 
-            return $this->upvoteCandidate($candidate_id, $msisdn);
+            return $this->upvoteCandidate($candidate_id, $msisdn, $linkID);
             
         } catch (\Exception $e) {
             throw $e;
@@ -22,18 +23,20 @@ class VoteHandler extends DbConnection{
     }
 
 
-    public function upvoteCandidate($candidate_id, $msisdn){
+    public function upvoteCandidate($candidate_id, $msisdn, $linkID){
         try {
 
             $sql = "UPDATE candidates SET  votes=votes+1 WHERE id ='$candidate_id'";
             $query = $this->connection->query($sql);
-
-            $vote = $this->sendAppreciation($candidate_id);
-            
-            $msg2 = 'Your vote for '.ucfirst($vote[0]['name']).' in the '.ucfirst($vote[0]['category']).' category has been cast. Thank you for taking part.';
             $msg = 'Thank you for voting. #AMT Awards - Celebrating Excellence In The Transport Industry.';
-            // self::sendSMS($msg, $msisdn);
-            self::serviceSMS( $msg, $msisdn );
+            if(isset($linkID)){
+                self::serviceSMS( $msg, $msisdn, $linkID);
+            }
+
+            // $vote = $this->sendAppreciation($candidate_id);
+            // $msg2 = 'Your vote for '.ucfirst($vote[0]['name']).' in the '.ucfirst($vote[0]['category']).' category has been cast. Thank you for taking part.';
+            // self::sendSMS($linkID, $msisdn);
+
             return $msg2;
 
         } catch (\Exception $e) {
@@ -70,7 +73,6 @@ class VoteHandler extends DbConnection{
     }
 
 
-
     public function getLeaderboard(){
         try {
 
@@ -101,6 +103,7 @@ class VoteHandler extends DbConnection{
             throw $e;
         }
     }
+
 
     public function categories(){
         try {
@@ -137,6 +140,7 @@ class VoteHandler extends DbConnection{
         return $row;       
     }
 
+
     public function all_rows($sql){
 
         $query = $this->connection->query($sql);
@@ -147,18 +151,19 @@ class VoteHandler extends DbConnection{
     }
     
     
-    
     public function escape_string($value){
         
         return $this->connection->real_escape_string($value);
     }
 
+    
     public function concat($chain, $link){
 
         $result = $chain .=$link;
         return $result;
         
     }
+
 
     public function extractCandidateID($string){
     
@@ -174,22 +179,7 @@ class VoteHandler extends DbConnection{
 
     }
 
-
-
 }
 
 
-// header('Access-Control-Allow-Origin: *');
-// header('Content-type: application/json');
 
-// $t = new VoteHandler();
-// print_r($vote = $t->serviceSMS('132', '254707630747'));
-// $result = [
-//     'status' => true, 
-//     'message description'=>'leaderboard summary and all contestants(candidates)',
-//     'data'=> [
-//     // 'summary' => $vote->getLeaderboard(),
-//     'candidates' => $t->allCandidates()
-//     ]
-// ];
-// echo json_encode($result); 

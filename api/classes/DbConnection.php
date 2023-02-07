@@ -1,11 +1,12 @@
 <?php
+include_once('Configs.php');
+
 class DbConnection {
 
-    private $host = 'localhost';
-    private $username = 'root';
-    // private $password = '!23qweASD';
-    private $password = 'DarthVader-2012';
-    private $database = 'amta';
+    private $host = Configs::HOST;
+    private $username = Configs::USERNAME;
+    private $password = Configs::PASSWORD;
+    private $database = Configs::DATABASE;
     
     protected $connection;
     
@@ -33,12 +34,12 @@ class DbConnection {
         $url = 'http://167.172.14.50:4002/v1/send-sms';
     
         $post_data = http_build_query([
-            "apiClientID" => 566,
-            "key" => 'HUuZxgpnOGPTIYF',
-            "secret" => 'nyailJsfK5r1UPkreVa9xSQH1PDICQ',
+            "apiClientID" => Configs::API_CLIENT_ID,
+            "key" => Configs::KEY,
+            "secret" => Configs::SECRET,
             "txtMessage" => $message,
             "MSISDN" => $msisdn,
-            "serviceID" => 1
+            "serviceID" => Configs::SERVICE_ID
         ]);
     
         try {
@@ -60,17 +61,18 @@ class DbConnection {
     }
     
 
-    public function serviceSMS( $message, $msisdn ) {
+    public function serviceSMS( $message, $msisdn, $linkID ) {
         
         $url = 'https://app.bongaplus.co.ke/api/send-sms-v1';
     
         $post_data = http_build_query([
-            "apiClientID" => 209,
-            "key" => 'ZTvFmB66Vo9H8BX',
-            "secret" => '3RaPhBI7RHZHwVFIIzmhMlY8WzSjC9',
+            "apiClientID" => Configs::MO_API_CLIENT_ID,
+            "key" => Configs::MO_KEY,
+            "secret" => Configs::MO_SECRET,
             "txtMessage" => $message,
             "MSISDN" => $msisdn,
-            "serviceID" => 132
+            "serviceID" => Configs::MO_SERVICE_ID,
+            "linkID" => $linkID
         ]);
     
         try {

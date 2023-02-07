@@ -4,12 +4,12 @@ namespace backend\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use backend\models\Branches;
+use backend\models\Votes;
 
 /**
- * BranchSearch represents the model behind the search form of `backend\models\Branches`.
+ * VotesSearch represents the model behind the search form of `backend\models\Votes`.
  */
-class BranchSearch extends Branches
+class VotesSearch extends Votes
 {
     /**
      * {@inheritdoc}
@@ -17,8 +17,8 @@ class BranchSearch extends Branches
     public function rules()
     {
         return [
-            [['id'], 'integer'],
-            [['branch', 'contact', 'county', 'sub_county', 'saved_at'], 'safe'],
+            [['id', 'candidate_id'], 'integer'],
+            [['msisdn', 'shortcode', 'inserted_at'], 'safe'],
         ];
     }
 
@@ -40,7 +40,7 @@ class BranchSearch extends Branches
      */
     public function search($params)
     {
-        $query = Branches::find();
+        $query = Votes::find();
 
         // add conditions that should always apply here
 
@@ -59,13 +59,12 @@ class BranchSearch extends Branches
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'saved_at' => $this->saved_at,
+            'candidate_id' => $this->candidate_id,
+            'inserted_at' => $this->inserted_at,
         ]);
 
-        $query->andFilterWhere(['like', 'branch', $this->branch])
-            ->andFilterWhere(['like', 'contact', $this->contact])
-            ->andFilterWhere(['like', 'county', $this->county])
-            ->andFilterWhere(['like', 'sub_county', $this->sub_county]);
+        $query->andFilterWhere(['like', 'msisdn', $this->msisdn])
+            ->andFilterWhere(['like', 'shortcode', $this->shortcode]);
 
         return $dataProvider;
     }

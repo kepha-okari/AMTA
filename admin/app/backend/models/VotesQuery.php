@@ -3,11 +3,11 @@
 namespace backend\models;
 
 /**
- * This is the ActiveQuery class for [[Candidates]].
+ * This is the ActiveQuery class for [[Votes]].
  *
- * @see Candidates
+ * @see Votes
  */
-class CandidatesQuery extends \yii\db\ActiveQuery
+class VotesQuery extends \yii\db\ActiveQuery
 {
     /*public function active()
     {
@@ -16,7 +16,7 @@ class CandidatesQuery extends \yii\db\ActiveQuery
 
     /**
      * {@inheritdoc}
-     * @return Candidates[]|array
+     * @return Votes[]|array
      */
     public function all($db = null)
     {
@@ -25,7 +25,7 @@ class CandidatesQuery extends \yii\db\ActiveQuery
 
     /**
      * {@inheritdoc}
-     * @return Candidates|array|null
+     * @return Votes|array|null
      */
     public function one($db = null)
     {

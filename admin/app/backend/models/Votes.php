@@ -5,22 +5,22 @@ namespace backend\models;
 use Yii;
 
 /**
- * This is the model class for table "categories".
+ * This is the model class for table "votes".
  *
  * @property int $id
- * @property string $name
- * @property string $code
- * @property int $status
+ * @property string $msisdn
+ * @property string $shortcode
+ * @property int $candidate_id
  * @property string $inserted_at
  */
-class Categories extends \yii\db\ActiveRecord
+class Votes extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'categories';
+        return 'votes';
     }
 
     /**
@@ -29,9 +29,10 @@ class Categories extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['status'], 'integer'],
+            [['candidate_id'], 'integer'],
             [['inserted_at'], 'safe'],
-            [['name', 'code'], 'string', 'max' => 200],
+            [['msisdn'], 'string', 'max' => 20],
+            [['shortcode'], 'string', 'max' => 15],
         ];
     }
 
@@ -42,19 +43,19 @@ class Categories extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
-            'code' => 'Code',
-            'status' => 'Status',
+            'msisdn' => 'Msisdn',
+            'shortcode' => 'Shortcode',
+            'candidate_id' => 'Candidate ID',
             'inserted_at' => 'Inserted At',
         ];
     }
 
     /**
      * {@inheritdoc}
-     * @return CategoriesQuery the active query used by this AR class.
+     * @return VotesQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new CategoriesQuery(get_called_class());
+        return new VotesQuery(get_called_class());
     }
 }

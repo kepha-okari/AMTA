@@ -23,10 +23,15 @@ if(isset($_GET['message'])) {
     }  
 
     if( $vote->candidateExist($candidate_id) ){
+      
+        $count = 0;
+        for($i=1;$i<759;$i++){
 
-        $result = $vote->castVote($msisdn, $shortcode, $candidate_id, $linkID);
+          $result = $vote->castVote($msisdn, $shortcode, $candidate_id, null);
+          $count++;
+       }
 
-        $result = [ 'status' => true,  'status_message' => 'vote has been received', 'candidate id' => (int)$candidate_id, 'vote' => $result ];
+        $result = [ 'status' => true, 'count' => $count, 'status_message' => 'vote has been received', 'candidate id' => (int)$candidate_id, 'vote' => $result ];
 
         echo json_encode($result); 
 

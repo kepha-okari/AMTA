@@ -4,11 +4,11 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model backend\models\BranchSearch */
+/* @var $model backend\models\VotesSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="branches-search">
+<div class="votes-search">
 
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
@@ -20,15 +20,13 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'id') ?>
 
-    <?= $form->field($model, 'branch') ?>
+    <?= $form->field($model, 'msisdn') ?>
 
-    <?= $form->field($model, 'contact') ?>
+    <?= $form->field($model, 'shortcode') ?>
 
-    <?= $form->field($model, 'county') ?>
+    <?= $form->field($model, 'candidate_id') ?>
 
-    <?= $form->field($model, 'sub_county') ?>
-
-    <?php // echo $form->field($model, 'saved_at') ?>
+    <?= $form->field($model, 'inserted_at') ?>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>

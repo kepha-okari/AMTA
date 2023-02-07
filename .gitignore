@@ -1,3 +1,4 @@
 api/classes/DbConnection.php
+api/classes/Configs.php
 *.sql
 *.csv

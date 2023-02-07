@@ -4,21 +4,19 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model backend\models\Candidates */
+/* @var $model backend\models\Votes */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="candidates-form">
+<div class="votes-form">
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'msisdn')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'votes')->textInput() ?>
+    <?= $form->field($model, 'shortcode')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'status')->textInput() ?>
-
-    <?= $form->field($model, 'category_id')->textInput() ?>
+    <?= $form->field($model, 'candidate_id')->textInput() ?>
 
     <?= $form->field($model, 'inserted_at')->textInput() ?>
 
